@@ -13,12 +13,25 @@ Picture a group chat for a trip where one member is the agent. It knows everyone
 
 ## How it’s built
 
-- **Messaging layer:** Photon’s imessage-kit or Spectrum receives and sends messages in the group thread.
+- **Messaging layer:** Photon’s imessage-kit or Spectrum receives and sends messages in the group thread. Supabase stores and coordinates the conversation data but is not the chat channel by itself.
 - **Agent brain:** An LLM reads each message and decides whether to answer, update the plan, or stay quiet. Most messages in a group chat aren’t for the bot, so staying quiet matters.
-- **Trip store:** A small database, such as SQLite or Postgres, holding trips, travelers, flights, and events with times and locations.
+- **Trip store:** Supabase Postgres holds trips, group members, messages, travelers, flights, reservations, events, notifications, and shared expenses.
 - **Flight data:** A flight-status API polled every few minutes for each tracked flight, triggering messages on changes.
-- **Scheduler:** A cron job or queue for timed nudges and morning summaries.
+- **Backend logic:** Supabase Edge Functions process messages, call the LLM, update trip data, and send responses through the messaging layer.
+- **Scheduler:** Supabase `pg_cron` triggers Edge Functions for flight polling, timed nudges, and morning summaries.
 - **Optional extras:** A maps API for travel times, weather for each day, and image parsing for screenshots of confirmations.
+
+### Group chat flow
+
+```text
+Group message
+	-> Messaging layer
+	-> Agent backend / Edge Function
+	-> Supabase Postgres
+	-> Agent response or proactive notification
+```
+
+Supabase Auth and Row Level Security keep each trip private, while Supabase Realtime lets members see itinerary changes as they happen. Uploaded confirmations can be stored in private Supabase Storage buckets.
 
 ## Tricky parts to plan for
 
