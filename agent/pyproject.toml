@@ -1,0 +1,26 @@
+[project]
+name = "photon-agent"
+version = "0.1.0"
+description = "Trip planner agent: inbound messages, LLM tools, scheduler (J)."
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi",
+    "uvicorn[standard]",
+    "supabase",
+    "httpx",
+    "apscheduler",
+    "pydantic",
+    "pydantic-settings",
+    "tzdata",
+    "phonenumbers",
+    # TODO(J, #3): add the LLM SDK for the provider with free credits.
+]
+
+[dependency-groups]
+dev = ["pytest", "ruff"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.pytest.ini_options]
+pythonpath = ["."]

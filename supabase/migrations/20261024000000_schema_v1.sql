@@ -1,0 +1,30 @@
+-- Schema v1 (spec §12).
+--
+-- TODO(J, #1): create these tables with RLS enabled on every one:
+--   trips                    organizer_user_id, name, bot_name, destination (name, lat, lng, tz),
+--                            start_date, end_date, currency, status
+--   members                  trip_id, name, phone_e164, imessage_handle, home_tz, is_organizer,
+--                            is_guest, tracking_opt_in, join_code, joined_at
+--                            unique (trip_id, phone_e164), unique (join_code)
+--   messages                 trip_id, conversation_id, spectrum_message_id unique, member_id,
+--                            direction in|out, text, attachments jsonb, classified_as
+--   flights                  trip_id, member_id, airline, number, flight_date, dep/arr airport + tz,
+--                            sched/est times, gate_dep, status, last_announced jsonb, next_poll_at,
+--                            direction outbound|return|other
+--   flight_status_snapshots  flight_id, payload jsonb, fetched_at
+--   events                   trip_id, title, start_at, end_at, tz, location (name, address, lat, lng),
+--                            attendees uuid[], created_by_member_id, deleted_at
+--   reservations             trip_id, kind, name, address, lat, lng, start_at, end_at, tz,
+--                            confirmation_code, notes
+--   event_history            trip_id, entity, entity_id, before jsonb, after jsonb, actor_member_id
+--   pending_confirmations    trip_id, member_id, payload jsonb, expires_at, status
+--   notifications            trip_id, member_id, kind, dedupe_key unique, send_at, payload jsonb,
+--                            status, sent_message_id
+--   expenses                 trip_id, payer_member_id, amount_cents, currency, description,
+--                            source_message_id
+--   expense_shares           expense_id, member_id, amount_cents
+--
+-- TODO(J, #1): RLS. The organizer reads/writes rows where trips.organizer_user_id = auth.uid()
+--   (child tables via trip_id). The agent uses the service role. No anonymous reads.
+-- TODO(J, #1): private Storage bucket `attachments` (paths keyed by trip_id/).
+-- TODO(J, #1): add tables to the supabase_realtime publication for the dashboard (#24, #25).

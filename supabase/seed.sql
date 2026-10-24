@@ -1,0 +1,3 @@
+-- Local seed data, applied by `supabase db reset`.
+-- TODO(J, #28): demo trip fixture (members, flights, hotel, dinner, a couple of expenses) so
+--   the demo starts from a known state.

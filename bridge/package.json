@@ -1,0 +1,22 @@
+{
+  "name": "photon-bridge",
+  "version": "0.1.0",
+  "description": "Spectrum <-> agent relay (Kate). Only needed if Spectrum can't call the agent directly (#5).",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "typecheck": "tsc --noEmit"
+  },
+  "type": "module",
+  "dependencies": {
+    "@hono/node-server": "^2.1.5",
+    "hono": "^4.13.13"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  },
+  "private": true
+}
