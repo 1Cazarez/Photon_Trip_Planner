@@ -3,6 +3,8 @@
 Status: draft (from interview, 2026-10-23)
 Stage: **hackathon / demo**. Works convincingly for one or a few live groups. Shortcuts are fine where noted; reliability work beyond the demo is out of scope.
 
+> **Update (2026-10-23): messaging mode.** Photon's docs say the Spectrum free tier supports only **direct conversations**. It can't create or join group chats, and the member must text first. The build therefore starts in **DM hub mode**: each member texts the bot with a join code from the web page, the bot replies 1:1, and it fans out shared updates to every joined member. Group chat (§4.2, §7 multi-zone group format) becomes a later adapter, either imessage-kit on a Mac with a dedicated Apple ID or Spectrum Business. See [ROADMAP.md](../ROADMAP.md).
+
 ## 1. Summary
 
 An organizer creates a trip on a small web app (dates, destination, members with phone numbers and time zones, known flights and hotel, tracking opt-ins). The agent then creates an iMessage group with everyone and lives in it as a **trip-named bot** (e.g. "Tulum Bot"). Members text it plans, screenshots, questions, and changes. It keeps the itinerary in Supabase, tracks opted-in flights with a real flight-status API, posts a small number of proactive messages, coordinates pickups, adds travel times and weather, and tracks shared expenses with custom splits. The organizer also sees a live dashboard.
